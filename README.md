@@ -19,15 +19,15 @@ Permitir a cualquier USUARIO realizar órdenes de productos, y a ADMIN o SUPERAD
 #### Listar órdenes (solo admins)
 
 ```http
-  GET /ordenes/listar
-  Authorization: Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJyb2wiOiJTVVBFUkFETUlOIiwiaWF0IjoxNzQ2MjA3ODU2LCJleHAiOjE3NDYyMDgwOTYsInN1YiI6InN1cGVyQHN1cGVyLmNvbSJ9.K70iPItBEHeXNNfM7v6wurYYlzpSIgRTLCFeZYeZ6wZsdZ0-mYg1wr-rIgVMjwJXdwq1Cq1mjyuS7yqn1OiuMw
+GET /ordenes/listar
+Authorization: Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJyb2wiOiJTVVBFUkFETUlOIiwiaWF0IjoxNzQ2MjA3ODU2LCJleHAiOjE3NDYyMDgwOTYsInN1YiI6InN1cGVyQHN1cGVyLmNvbSJ9.K70iPItBEHeXNNfM7v6wurYYlzpSIgRTLCFeZYeZ6wZsdZ0-mYg1wr-rIgVMjwJXdwq1Cq1mjyuS7yqn1OiuMw
 ```
 
 #### Crear orden (solo usuarios)
 
 ```http
-  POST /ordenes/crear HTTP/1.1
-  Authorization: Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJyb2wiOiJVU1VBUklPIiwiaWF0IjoxNzQ2MjA3OTgxLCJleHAiOjE3NDYyMDgyMjEsInN1YiI6IkxpemE1NEB5YWhvby5jb20ifQ.ZUQpQ4GrC5ece0ii9qAM1mMYIUC5OTTzR2aKq6eKMUgE_85Tya0Cnfbkx2MxID63bvQUIhczl7qfhm0CDRoWdQ
+POST /ordenes/crear HTTP/1.1
+Authorization: Bearer eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJyb2wiOiJVU1VBUklPIiwiaWF0IjoxNzQ2MjA3OTgxLCJleHAiOjE3NDYyMDgyMjEsInN1YiI6IkxpemE1NEB5YWhvby5jb20ifQ.ZUQpQ4GrC5ece0ii9qAM1mMYIUC5OTTzR2aKq6eKMUgE_85Tya0Cnfbkx2MxID63bvQUIhczl7qfhm0CDRoWdQ
 ```
 
 | Parameter | Type    | Description                         |
