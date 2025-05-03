@@ -160,7 +160,6 @@
 								<exclude>com.jaob.ms_ordenes.aggregates.response.ProductoDTO</exclude>
 								<exclude>com.jaob.ms_ordenes.aggregates.response.ProductoResponse</exclude>
 								<exclude>com.jaob.ms_ordenes.aggregates.response.ResponseBase</exclude>
-								<exclude>com.jaob.ms_ordenes.config.security.JwtAuthFilter</exclude>
 								<exclude>com.jaob.ms_ordenes.config.security.SecurityConfig</exclude>
 								<exclude>com.jaob.ms_ordenes.controller.GlobalExceptionHandler</exclude>
 								<exclude>com.jaob.ms_ordenes.controller.OrdenController</exclude>

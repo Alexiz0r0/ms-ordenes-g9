@@ -30,15 +30,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final AuthFeignClient authClient;
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String tokenHeader = request.getHeader("Authorization");
         if (!StringUtils.hasText(tokenHeader) || !StringUtils.startsWithIgnoreCase(tokenHeader, "Bearer ")) {
             handleJwtException(response, Constantes.MESSAGE_REQUIRED_TOKEN);
+            return;
         }
         try {
-            AuthData user = getUserInformation(response, tokenHeader);
+            AuthData user = getUserInformation(tokenHeader);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     user.getEmail(), null, List.of(new SimpleGrantedAuthority(user.getRol())));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -49,7 +49,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private void handleJwtException(HttpServletResponse response, String message) throws IOException {
-
         ResponseBase<String> customResponse = new ResponseBase<>(
                 Constantes.CODE_UNAUTHORIZED,
                 true,
@@ -63,10 +62,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         mapper.writeValue(response.getWriter(), customResponse);
     }
 
-    private AuthData getUserInformation(HttpServletResponse response, String token) throws IOException {
+    private AuthData getUserInformation(String token) {
         ResponseEntity<AuthResponse> responseEntity = authClient.validateToken(token);
         if (responseEntity == null || responseEntity.getBody() == null || responseEntity.getBody().getData() == null) {
-            handleJwtException(response, Constantes.MESSAGE_REQUIRED_TOKEN);
+            throw new RuntimeException("Unauthorized");
         }
         return responseEntity.getBody().getData();
     }
