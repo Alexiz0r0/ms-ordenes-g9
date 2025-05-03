@@ -133,6 +133,44 @@ class OrdenServiceImplTest {
     }
 
     @Test
+    void lanzarExcepcionListaResponseNullProductoNoExisten() {
+        //ARRANGE
+        String token = "Bearer aBc123";
+        List<Long> productosIds = List.of(2L);
+        request.setProductosIds(productosIds);
+        productoDTO.setId(1L);
+
+        when(productoClient.listarProductos(token)).thenReturn(null);
+        //ACT
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> service.crear(request, token));
+        //ASSERT
+        assertEquals(Constantes.MESSAGE_EMPTY_LIST_PRODUCTS, exception.getMessage());
+
+        verify(productoClient).listarProductos(token);
+        verify(authClient, never()).validateToken(any());
+        verify(repository, never()).save(any());
+    }
+
+    @Test
+    void lanzarExcepcionListaDataNullProductoNoExisten() {
+        //ARRANGE
+        String token = "Bearer aBc123";
+        List<Long> productosIds = List.of(2L);
+        request.setProductosIds(productosIds);
+        productoDTO.setId(1L);
+
+        when(productoClient.listarProductos(token)).thenReturn(ResponseEntity.ok(null));
+        //ACT
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> service.crear(request, token));
+        //ASSERT
+        assertEquals(Constantes.MESSAGE_EMPTY_LIST_PRODUCTS, exception.getMessage());
+
+        verify(productoClient).listarProductos(token);
+        verify(authClient, never()).validateToken(any());
+        verify(repository, never()).save(any());
+    }
+
+    @Test
     void lanzarExcepcionProductoNoExisten() {
         //ARRANGE
         String token = "Bearer aBc123";
@@ -171,4 +209,45 @@ class OrdenServiceImplTest {
         verify(repository, never()).save(any());
 
     }
+
+    @Test
+    void lanzarExceptionResponseNullUsuarioNoEncontrado() {
+        //ARRANGE
+        String token = "Bearer aBc123";
+        List<Long> productosIds = List.of(1L);
+        request.setProductosIds(productosIds);
+        productoDTO.setId(1L);
+        productoResponse.setData(List.of(productoDTO));
+        //ACT
+        when(productoClient.listarProductos(token)).thenReturn(ResponseEntity.ok(productoResponse));
+        when(authClient.validateToken(token)).thenReturn(null);
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> service.crear(request, token));
+        //ASSERT
+        assertEquals(Constantes.MESSAGE_USER_NOT_FOUND, exception.getMessage());
+
+        verify(authClient).validateToken(token);
+        verify(repository, never()).save(any());
+
+    }
+
+    @Test
+    void lanzarExceptionResponseBodyNullUsuarioNoEncontrado() {
+        //ARRANGE
+        String token = "Bearer aBc123";
+        List<Long> productosIds = List.of(1L);
+        request.setProductosIds(productosIds);
+        productoDTO.setId(1L);
+        productoResponse.setData(List.of(productoDTO));
+        //ACT
+        when(productoClient.listarProductos(token)).thenReturn(ResponseEntity.ok(productoResponse));
+        when(authClient.validateToken(token)).thenReturn(ResponseEntity.ok(null));
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> service.crear(request, token));
+        //ASSERT
+        assertEquals(Constantes.MESSAGE_USER_NOT_FOUND, exception.getMessage());
+
+        verify(authClient).validateToken(token);
+        verify(repository, never()).save(any());
+
+    }
+
 }
